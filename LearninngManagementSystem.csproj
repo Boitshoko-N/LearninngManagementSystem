@@ -182,6 +182,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\BookingView.cshtml" />
     <Content Include="Views\User\GuestServiceView.cshtml" />
+    <Content Include="Views\User\BookingConfirmedView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

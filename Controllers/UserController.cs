@@ -18,9 +18,15 @@ namespace LearninngManagementSystem.Controllers
         [HttpPost]
         public ActionResult BookingView(Booking booking)
         {
-
+            booking.BookingId = Guid.NewGuid().ToString();
+            booking.DateMade = DateTime.Now;
+            return View("BookingConfirmedView",booking);
         }
         public ActionResult BookingView() {
+            return View();
+        }
+        public ActionResult BookingConfirmedView()
+        {
             return View();
         }
     }

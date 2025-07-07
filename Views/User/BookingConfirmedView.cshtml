@@ -1,0 +1,75 @@
+﻿@model LearninngManagementSystem.Models.Booking
+@{
+    ViewBag.Title = "BookingConfirmedView";
+}
+
+<div class="container">
+    <h2 class="text-secondary text-center mb-3">Booking Confirmed</h2>
+    <div class="row">
+        <div>
+            <div class="card mx-auto bg-secondary rounded-2 w-50">
+                <div class="text-center">
+                    <h5>Booking Confirmed with the following details:</h5>
+                </div>
+                <div class="ms-4 mt-3">
+                    <p><strong>Booking ID:</strong><span id="bookingId"></span></p>
+                    <p><strong>Date:</strong><span id="bookingDate"></span></p>
+                    <p><strong>Learner:</strong><span id="LFullName"></span></p>
+                    <p><strong>Grade:</strong><span id="grade"></span></p>
+                </div>
+                <div class="mt-5 text-center">
+                    <p>Thank You for making a booking.</p>
+                    <p>Please present your booking confirmation at the reception on the day</p>
+                    <p>We can't wait to see you on @Model.BookingDate </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <a id="ConfirmationDownload" href="#"><p>Click here to download booking confirmation</p></a>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const bookingId = @Model.BookingId;
+
+        if (!bookingId) {
+            alert("No booking found");
+            return;
+        }
+
+        //Save booking to localstorage
+        const booking = {
+            BookingId: "@Model.BookingId",
+            BookingDate: "@Model.BookingDate.ToString("o")",
+            P_FullName: "@Model.P_FullName",
+            L_FullName: "@Model.L_FullName",
+            P_PhoneNumber: "@Model.P_PhoneNumber",
+            L_PhoneNumber: "@Model.L_PhoneNumber",
+            HomeLanguage: "@Model.Home_Language",
+            Grade: "@Model.Grade"
+        };
+
+        //Save to localstorage
+        localStorage.setItem(booking.BookingId, JSON.stringify(booking));
+        localStorage.setItem("selectedbookingId", booking.BookingId);
+
+        let rideHistory = JSON.parse(localStorage.getItem("rideHistory")) || [];
+
+        //Prevent duplicates
+        if (!rideHistory.includes(booking.BookingId)) {
+            rideHistory.push(booking.BookingId);
+            localStorage.setItem("rideHistory", JSON.stringify(rideHistory));
+        }
+
+        //Populate Page
+        document.getElementById("bookingId").textContent = booking.BookingId;
+        document.getElementById("bookingDate").textContent = new Date(booking.BookingDate).toLocaleDateString();
+        document.getElementById("LFullName").textContent = booking.L_FullName;
+        document.getElementById("grade").textContent = booking.Grade;
+
+
+    })
+</script>
+
