@@ -1,0 +1,58 @@
+﻿@model LearninngManagementSystem.Models.Booking
+@{
+    ViewBag.Title = "BookingView";
+}
+@Styles.Render("~/Content/Styles.css")
+
+<div class="container">
+    <div>
+        <h4 class="text-secondary text-center">Make Booking</h4>
+    </div>
+    <div class="card bg-secondary w-50 mx-auto rounded-4 h-100">
+        @using (Html.BeginForm("BookingView", "User", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col ms-3">
+                    @Html.LabelFor(m => m.P_FullName, "Parent Full Name:")
+                    @Html.TextBoxFor(m => m.P_FullName, new {@class ="form-control",placeholder = "Name Surname"})
+                </div>
+                <div class="col ">
+                    @Html.LabelFor(m => m.L_FullName, "Learner Full Name:")
+                    @Html.TextBoxFor(m => m.L_FullName, new {@class = "form-control",placeholder = "Name Surname"})
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ms-3">
+                    @Html.LabelFor(m => m.P_PhoneNumber, "Parent Phone Number:")
+                    @Html.TextBoxFor(m => m.P_PhoneNumber, new {@class = "form-control",placeholder = "012 345 6789"})
+                </div>
+                <div class="col">
+                    @Html.LabelFor(m => m.L_PhoneNumber, "Learner Phone Number:")
+                    @Html.TextBoxFor(m => m.L_PhoneNumber, new { @class = "form-control", placeholder = "012 345 6789" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ms-3">
+                    @Html.LabelFor(m => m.Grade, "Learner's Grade:")
+                    @Html.TextBoxFor(m => m.Grade, new {@class = "form-control",placeholder = "10"})
+                </div>
+                <div class="col">
+                    @Html.LabelFor(m => m.Home_Language, "Home Language:")
+                    @Html.TextBoxFor(m => m.Home_Language, new { @class = "form-control", placeholder = "Sepedi" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ms-3">
+                    @Html.LabelFor(m => m.BookingDate, "Date for Writing:")
+                    @Html.TextBoxFor(m => m.BookingDate, new {@class = "form-control",type = "datetime-local"})
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success mt-4 mb-4 ">Book</button>
+        }
+
+    </div>
+
+</div>
+

@@ -1,0 +1,12 @@
+﻿body {
+    background-color:paleturquoise;
+}
+.nav-link.active {
+    color: black !important; /* Active color */
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#NavBar {
+    background-color: darkgray;
+}

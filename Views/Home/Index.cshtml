@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@Styles.Render("~/Content/Styles.css")
+
+<div class="container mt-5 bg-secondary">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center text-secondary">
+            <h2 class="mb-3">Welcome To JEKE HIGH</h2>
+            <p class="mb-4">JEKE MAARN Education</p>
+
+            <div class="card p-4 shadow-sm bg-secondary">
+                <h5 class="text-secondary mb-3">Would you like to continue as:</h5>
+
+                <select id="UserSelection" class="form-select mb-4">
+                    <option disabled selected value="">-- Select Role --</option>
+                    <option value="Guest">Guest</option>
+                    <option value="Student">Student</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Staff">Staff</option>
+                </select>
+
+                <button id="ContinueBTN" class="btn btn-success w-100" onclick="UserPage()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function UserPage() {
+        const userSelection = document.getElementById("UserSelection").value;
+
+        switch (userSelection) {
+            case "Guest":
+                window.location.href = "@Url.Action("GuestServiceView", "User")";
+                break;
+            case "Student":
+                window.location.href = "@Url.Action("StudentLogInView", "User")";
+                break;
+            case "Parent":
+                window.location.href = "@Url.Action("ParentLogInView", "User")";
+                break;
+            case "Staff":
+                window.location.href = "@Url.Action("StaffLogInView", "User")";
+                break;
+            default:
+                alert("Please select an option.");
+                break;
+        }
+    }
+</script>
