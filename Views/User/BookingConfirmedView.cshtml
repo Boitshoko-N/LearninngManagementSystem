@@ -11,7 +11,7 @@
                 <div class="text-center">
                     <h5>Booking Confirmed with the following details:</h5>
                 </div>
-                <div class="ms-4 mt-3">
+                <div class="ms-4 mt-3 me-3">
                     <p><strong>Booking ID:</strong><span id="bookingId"></span></p>
                     <p><strong>Date:</strong><span id="bookingDate"></span></p>
                     <p><strong>Learner:</strong><span id="LFullName"></span></p>
@@ -32,7 +32,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        const bookingId = @Model.BookingId;
+        const bookingId = "@Model.BookingId";
 
         if (!bookingId) {
             alert("No booking found");
@@ -70,6 +70,6 @@
         document.getElementById("grade").textContent = booking.Grade;
 
 
-    })
+    });
 </script>
 
