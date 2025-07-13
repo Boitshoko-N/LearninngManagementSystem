@@ -2,11 +2,15 @@
 @{
     ViewBag.Title = "BookingConfirmedView";
 }
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
 
 <div class="container">
     <h2 class="text-secondary text-center mb-3">Booking Confirmed</h2>
     <div class="row">
-        <div>
+        <div id="bookingCard">
             <div class="card mx-auto bg-secondary rounded-2 w-50">
                 <div class="text-center">
                     <h5>Booking Confirmed with the following details:</h5>
@@ -69,6 +73,30 @@
         document.getElementById("LFullName").textContent = booking.L_FullName;
         document.getElementById("grade").textContent = booking.Grade;
 
+        var downloadlink = document.getElementById("ConfirmationDownload");
+        downloadlink.addEventListener("click", function (e) {
+
+            e.preventDefault(); //Prevent default behaviour
+
+            const bookingId = localStorage.getItem("selectedbookingId");
+            const bookingData = localStorage.getItem(bookingId);
+            const bookingcard = document.getElementById("bookingCard");
+            //Check if the booking exists
+            if (!bookingData) {
+                alert("No booking found")
+                return
+            }
+
+            html2canvas(bookingcard).then(canvas => {
+                const image = canvas.toDataURL("image/png");
+
+                const { jsPDF } = window.jspdf;
+                const PDF = new jsPDF();
+                PDF.addImage(image, 'PNG', 10, 10);
+                PDF.save("BookingConfirmation.pdf");
+            });
+            
+        });
 
     });
 </script>
