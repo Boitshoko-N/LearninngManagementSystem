@@ -126,6 +126,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Booking.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\StudentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +185,8 @@
     <Content Include="Views\User\BookingView.cshtml" />
     <Content Include="Views\User\GuestServiceView.cshtml" />
     <Content Include="Views\User\BookingConfirmedView.cshtml" />
+    <Content Include="Views\User\StudentLogInView.cshtml" />
+    <Content Include="Views\User\StaffLogInView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

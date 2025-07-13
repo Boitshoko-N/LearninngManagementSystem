@@ -10,3 +10,7 @@
 #NavBar {
     background-color: darkgray;
 }
+button{
+    justify-content:center;
+    align-items:center;
+}

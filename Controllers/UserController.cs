@@ -14,6 +14,14 @@ namespace LearninngManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult StudentLogInView()
+        {
+            return View();
+        }
+        public ActionResult StaffLogInView()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult BookingView(Booking booking)

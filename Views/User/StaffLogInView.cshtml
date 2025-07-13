@@ -1,0 +1,32 @@
+﻿@model LearninngManagementSystem.Models.Staff
+@{
+    ViewBag.Title = "StaffLogInView";
+}
+
+<div class=" text-center text-secondary">
+    <h2 class="mb-3">Welcome To JEKE HIGH</h2>
+    <p class="mb-4">JEKE MAARN Education</p>
+</div>
+<div>
+    <h4 class="text-secondary text-center">Log In</h4>
+</div>
+<div>
+    <div class="card bg-secondary w-50 mx-auto rounded-4 h-100 mb-5">
+        @using (Html.BeginForm("StaffLogInView", "User", FormMethod.Post))
+        {
+            <div class="container mt-2">
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.StaffNo,"Staff Number:")
+                    @Html.TextBoxFor(m => m.StaffNo, new {@class = "form-control"})
+                </div>
+                <div class="mb-5">
+                    @Html.LabelFor(m => m.Password, "Password:")
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <button id="StaffLogIn" type="submit" class="btn btn-success mb-4">Log In</button>
+        }
+    </div>
+</div>
+
