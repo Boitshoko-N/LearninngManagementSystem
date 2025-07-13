@@ -91,8 +91,19 @@
                 const image = canvas.toDataURL("image/png");
 
                 const { jsPDF } = window.jspdf;
-                const PDF = new jsPDF();
-                PDF.addImage(image, 'PNG', 10, 10);
+                const PDF = new jsPDF("p", "pt", "a4");
+
+                // Calculate dimensions to center the image
+                const pageWidth = PDF.internal.pageSize.getWidth();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(pageWidth / imgWidth, 1);
+                const scaledWidth = imgWidth * ratio;
+                const scaledHeight = imgHeight * ratio;
+                const xOffset = (pageWidth - scaledWidth) / 2;
+
+                PDF.addImage(image, "PNG", xOffset, 40, scaledWidth, scaledHeight);
+                
                 PDF.save("BookingConfirmation.pdf");
             });
             
