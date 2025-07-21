@@ -121,12 +121,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\StaffLogInViewModel.cs" />
+    <Compile Include="Models\StaffRepository.cs" />
+    <Compile Include="Models\StudentLogInViewModel.cs" />
     <Compile Include="Models\StudentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -187,6 +192,11 @@
     <Content Include="Views\User\BookingConfirmedView.cshtml" />
     <Content Include="Views\User\StudentLogInView.cshtml" />
     <Content Include="Views\User\StaffLogInView.cshtml" />
+    <Content Include="Views\Student\StudentPortalView.cshtml" />
+    <Content Include="Views\Staff\PrincipalView.cshtml" />
+    <Content Include="Views\Staff\TresurerView.cshtml" />
+    <Content Include="Views\Staff\ClerkView.cshtml" />
+    <Content Include="Views\Staff\TeacherView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
