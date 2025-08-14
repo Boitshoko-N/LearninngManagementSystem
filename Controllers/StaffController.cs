@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LearninngManagementSystem.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,12 @@ namespace LearninngManagementSystem.Controllers
         // GET: Staff
         public ActionResult PrincipalView()
         {
-            return View();
+            var model = new ManageViewModel
+            {
+                Students = StudentRepository.GetAllStudents(),
+                Staff = StaffRepository.GetAllStaff()
+            };
+            return View(model);
         }
         public ActionResult TresurerView()
         {

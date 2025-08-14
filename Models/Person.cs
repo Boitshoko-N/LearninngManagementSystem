@@ -17,6 +17,7 @@ namespace LearninngManagementSystem.Models
     {
         public int StudentNo { get; set; }
         public string Password { get; set; }
+        public int grade {  get; set; }
 
         public Student() { }
     }

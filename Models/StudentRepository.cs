@@ -9,12 +9,16 @@ namespace LearninngManagementSystem.Models
     {
         public static List<Student> Students = new List<Student>()
         {
-           new Student {StudentNo = 12345678,Password = "Jack"},
-           new Student {StudentNo = 23456789, Password = "Perro"}
+           new Student {Name = "Jack",Surname = "Perrow",StudentNo = 12345678,Password = "Jack",grade = 11},
+           new Student {Name = "Jeke",Surname = "Maarn",StudentNo = 23456789, Password = "Perro",grade = 12}
         };
         public static Student GetStudentByStudentNo(int studentNo)
         {
             return Students.FirstOrDefault(m => m.StudentNo == studentNo);
+        }
+        public static List<Student> GetAllStudents() 
+        {
+            return Students;
         }
     }
 }

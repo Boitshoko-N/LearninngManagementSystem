@@ -9,13 +9,17 @@ namespace LearninngManagementSystem.Models
     {
         public static List<Staff>staff = new List<Staff>() {
 
-            new Staff {StaffNo = 98765432,Password = "Pass123",Type = "Teacher"},
-            new Staff {StaffNo = 12345678,Password = "Pass234",Type = "Principal"}
+            new Staff {Name = "Peter",Surname = "Smith",StaffNo = 98765432,Password = "Pass123",Type = "Teacher"},
+            new Staff {Name = "Asanda",Surname = "Sigigaba",StaffNo = 12345678,Password = "Pass234",Type = "Principal"}
         };
 
         public static Staff GetStaffByStaffNo(int staffNo)
         {
             return staff.FirstOrDefault(m => m.StaffNo == staffNo);
+        }
+        public static List<Staff> GetAllStaff()
+        {
+            return staff;
         }
     }
 }

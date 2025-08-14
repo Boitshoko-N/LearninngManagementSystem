@@ -1,4 +1,6 @@
-﻿@model LearninngManagementSystem.Models.Staff
+﻿@model LearninngManagementSystem.Models.StaffLogInViewModel
+
+
 @{
     ViewBag.Title = "StaffLogInView";
 }
@@ -14,14 +16,23 @@
     <div class="card bg-secondary w-50 mx-auto rounded-4 h-100 mb-5">
         @using (Html.BeginForm("StaffLogInView", "User", FormMethod.Post))
         {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+            }
+
             <div class="container mt-2">
                 <div class="mb-3">
-                    @Html.LabelFor(m => m.StaffNo,"Staff Number:")
-                    @Html.TextBoxFor(m => m.StaffNo, new {@class = "form-control"})
+                    @Html.LabelFor(m => m.StaffNo, "Staff Number:")
+                    @Html.TextBoxFor(m => m.StaffNo, new { @class = "form-control", @id = "StaffNo" })
+                    @Html.ValidationMessageFor(m => m.StaffNo, "", new { @class = "text-danger" })
                 </div>
                 <div class="mb-5">
                     @Html.LabelFor(m => m.Password, "Password:")
-                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "Password" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -29,4 +40,30 @@
         }
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.querySelector("form");
+        var staffNo = document.getElementById("StaffNo");
+        var password = document.getElementById("Password");
+
+        form.addEventListener("submit", function (e) {
+            if (staffNo.value.trim() === "" && password.value.trim() === "") {
+                e.preventDefault();
+                alert("Please enter both Staff Number and Password.");
+            }
+            else if (staffNo.value.trim() === "") {
+                e.preventDefault();
+                alert("Please enter your Staff Number!!")
+            }
+            else if (password.value.trim() === "") {
+                e.preventDefault();
+                alert("Please enter your password!!")
+            }
+        });
+    });
+
+</script>
+
+
 

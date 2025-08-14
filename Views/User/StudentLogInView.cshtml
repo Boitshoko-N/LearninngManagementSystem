@@ -15,10 +15,16 @@
 <div class="card bg-secondary w-50 mx-auto rounded-4 h-100 mb-5">
     @using (Html.BeginForm("StudentLogInView", "User", FormMethod.Post))
     {
+
+        if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+
         <div class="container mt-2">
             <div class="mb-3">
                 @Html.LabelFor(m => m.StudentNo, "Student Number:")
-                @Html.TextBoxFor(m => m.StudentNo, new { @class = "form-control", placeholder = "L12345678" })
+                @Html.TextBoxFor(m => m.StudentNo, new { @class = "form-control", placeholder = "L12345678", @id = "StudentNo" })
             </div>
             <div class="mb-5">
                 @Html.LabelFor(m => m.Password, "Password:")
@@ -30,5 +36,30 @@
 
     }
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.querySelector("form");
+        var studentNo = document.getElementById("StudentNo");
+        var password = document.getElementById("InPassword");
+
+        form.addEventListener("submit", function (e) {
+            if (studentNo.value.trim() === "" && password.value.trim() === "") {
+                e.preventDefault();
+                alert("Please enter both Student Number and Password.");
+            }
+            else if (studentNo.value.trim() === "") {
+                e.preventDefault();
+                alert("Please enter your Student Number!!")
+            }
+            else if (password.value.trim() === "") {
+                e.preventDefault();
+                alert("Please enter your password!!")
+            }
+        });
+    });
+
+</script>
+
 
 

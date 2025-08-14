@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 
 namespace LearninngManagementSystem.Controllers
 {
@@ -40,16 +43,21 @@ namespace LearninngManagementSystem.Controllers
                 return RedirectToAction("StudentPortalView", "Student");
 
             }
-            ModelState.AddModelError("", "Invalid login credentials.");
-            return View(model);
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid login details";
+                return View("StudentLogInView", model);
+            }
+            
         }
 
         [HttpPost]
         public ActionResult StaffLogInView(StaffLogInViewModel model)
         {
             var savedStaff = StaffRepository.GetStaffByStaffNo(model.StaffNo);
-            
-            if(savedStaff != null && savedStaff.Password == model.Password)
+
+
+            if (savedStaff != null && savedStaff.Password == model.Password)
             {
                 if (savedStaff.Type == "Principal")
                 {
@@ -68,8 +76,20 @@ namespace LearninngManagementSystem.Controllers
                     return RedirectToAction("TeacherView", "Staff");
                 }
             }
-            ModelState.AddModelError("", "Invalid log in details.");
-            return View(model);
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid login details";
+                return View("StaffLogInView", model);
+            }
+           
+            
+             
+
+            
+            
+
+
+            
         }
         public ActionResult BookingView() {
             return View();
