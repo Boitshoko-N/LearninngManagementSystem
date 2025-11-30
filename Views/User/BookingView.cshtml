@@ -1,4 +1,4 @@
-﻿@model LearninngManagementSystem.Models.Booking
+﻿@model LearninngManagementSystem.Models.BookingSlotVM
 @{
     ViewBag.Title = "BookingView";
 }
@@ -14,17 +14,17 @@
             <div class="row">
                 <div class="col ms-3">
                     @Html.LabelFor(m => m.P_FullName, "Parent Full Name:")
-                    @Html.TextBoxFor(m => m.P_FullName, new {@class ="form-control",placeholder = "Name Surname"})
+                    @Html.TextBoxFor(m => m.P_FullName, new { @class = "form-control", placeholder = "Name Surname" })
                 </div>
                 <div class="col ">
                     @Html.LabelFor(m => m.L_FullName, "Learner Full Name:")
-                    @Html.TextBoxFor(m => m.L_FullName, new {@class = "form-control",placeholder = "Name Surname"})
+                    @Html.TextBoxFor(m => m.L_FullName, new { @class = "form-control", placeholder = "Name Surname" })
                 </div>
             </div>
             <div class="row">
                 <div class="col ms-3">
                     @Html.LabelFor(m => m.P_PhoneNumber, "Parent Phone Number:")
-                    @Html.TextBoxFor(m => m.P_PhoneNumber, new {@class = "form-control",placeholder = "012 345 6789"})
+                    @Html.TextBoxFor(m => m.P_PhoneNumber, new { @class = "form-control", placeholder = "012 345 6789" })
                 </div>
                 <div class="col">
                     @Html.LabelFor(m => m.L_PhoneNumber, "Learner Phone Number:")
@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col ms-3">
                     @Html.LabelFor(m => m.Grade, "Learner's Grade:")
-                    @Html.TextBoxFor(m => m.Grade, new {@class = "form-control",placeholder = "10"})
+                    @Html.TextBoxFor(m => m.Grade, new { @class = "form-control", placeholder = "10" })
                 </div>
                 <div class="col">
                     @Html.LabelFor(m => m.Home_Language, "Home Language:")
@@ -43,8 +43,18 @@
             </div>
             <div class="row">
                 <div class="col ms-3">
-                    @Html.LabelFor(m => m.BookingDate, "Date for Writing:")
-                    @Html.TextBoxFor(m => m.BookingDate, new {@class = "form-control",type = "datetime-local"})
+                    @Html.LabelFor(m => m.Date, "Date for Writing:")
+                    @Html.DropDownList("Date", new SelectList(ViewBag.SlotDates, "SlotDateId", "Date"),
+                    "--Select--", new { @id = "SlotDateDropdown", @class = "form-select rounded-pill" })
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col ms-3">
+                    @Html.LabelFor(m => m., "Date for Writing:")
+                    @Html.DropDownList("Date", new SelectList(ViewBag.SlotDates, "SlotDateId", "Date"),
+                    "--Select--", new { @id = "SlotDateDropdown", @class = "form-select rounded-pill" })
                 </div>
 
             </div>

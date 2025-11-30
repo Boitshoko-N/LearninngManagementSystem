@@ -26,6 +26,15 @@ namespace LearninngManagementSystem.Controllers
             return View();
         }
 
+        public ActionResult BookingView()
+        {
+            var slotDates = Bookings.AvailableSlotDates();
+            var slots = Bookings.GetSlots();
+            ViewBag.SlotDates = slotDates;
+            ViewBag.Slots = slots;
+            return View();
+        }
+
         [HttpPost]
         public ActionResult BookingView(Booking booking)
         {
@@ -91,10 +100,13 @@ namespace LearninngManagementSystem.Controllers
 
             
         }
-        public ActionResult BookingView() {
+       
+        public ActionResult BookingConfirmedView()
+        {
             return View();
         }
-        public ActionResult BookingConfirmedView()
+
+        public ActionResult ParentLogInView()
         {
             return View();
         }
