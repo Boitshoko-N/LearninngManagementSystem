@@ -17,5 +17,7 @@ namespace LearninngManagementSystem.Models
         public int SlotDateId { get; set; }
 
         public int maxBookings { get; set; }
+
+        
     }
 }

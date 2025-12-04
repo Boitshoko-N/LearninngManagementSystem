@@ -52,9 +52,9 @@
 
             <div class="row">
                 <div class="col ms-3">
-                    @Html.LabelFor(m => m., "Date for Writing:")
-                    @Html.DropDownList("Date", new SelectList(ViewBag.SlotDates, "SlotDateId", "Date"),
-                    "--Select--", new { @id = "SlotDateDropdown", @class = "form-select rounded-pill" })
+                    @Html.LabelFor(m => m.StartTime, "Slot:")
+                    @Html.DropDownList("SlotId", Enumerable.Empty<SelectListItem>(),
+                    "--Select--", new { @id = "SlotDropdown", @class = "form-select rounded-pill" })
                 </div>
 
             </div>
@@ -65,4 +65,58 @@
     </div>
 
 </div>
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#SlotDateDropdown').change(function () {
+                var selectedDateId = $(this).val();
+                if (selectedDateId) {
+                    $.ajax({
+                        url: '@Url.Action("GetSlotsByDate", "User")',
+                        type: 'GET',
+                        data: { dateId: selectedDateId },
+                        success: function (data) {
+                            var slotDropdown = $('#SlotDropdown');
+                            slotDropdown.empty();
+                            slotDropdown.append($('<option>', {
+                                value: '',
+                                text: '--Select--'
+                            }));
+                            $.each(data, function (i, slot) {
+                                slotDropdown.append($('<option>', {
+                                    value: slot.SlotId,
+                                    text: slot.StartTime + ' - ' + slot.EndTime
+                                }));
+                            });
+                        },
+                        error: function () {
+                            alert('Error retrieving slots. Please try again.');
+                        }
+                    });
+                } else {
+                    $('#SlotDropdown').empty();
+                    $('#SlotDropdown').append($('<option>', {
+                        value: '',
+                        text: '--Select--'
+                    }));
+                }
+            });
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+    
 

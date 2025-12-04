@@ -49,11 +49,11 @@ namespace LearninngManagementSystem.Models
                 {
                     Slot slot = new Slot
                     {
-                        SlotId = (int)reader["SlotId"],
+                        SlotId = Convert.ToInt32(reader["SlotId"]),
                         StartTime = (DateTime)reader["StartTime"],
                         EndTime = (DateTime)reader["EndTime"],
-                        SlotDateId = (int)reader["SlotDateId"],
-                        maxBookings = (int)reader["maxBookings"]
+                        SlotDateId = Convert.ToInt32(reader["SlotDateId"]),
+                        maxBookings = Convert.ToInt32(reader["maxBookings"])
                     };
                     slots.Add(slot);
                 }

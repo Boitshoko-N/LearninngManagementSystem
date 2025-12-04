@@ -12,6 +12,7 @@ namespace LearninngManagementSystem.Controllers
 {
     public class UserController : Controller
     {
+
         // GET: User
         public ActionResult GuestServiceView()
         {
@@ -26,12 +27,19 @@ namespace LearninngManagementSystem.Controllers
             return View();
         }
 
+        public ActionResult GetSlotsByDate( int selectedDateId)
+        {
+            var slots = Bookings.GetSlots().Where(s => s.SlotDateId == selectedDateId).ToList();
+            return Json(slots, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult BookingView()
         {
             var slotDates = Bookings.AvailableSlotDates();
             var slots = Bookings.GetSlots();
             ViewBag.SlotDates = slotDates;
             ViewBag.Slots = slots;
+            
             return View();
         }
 
