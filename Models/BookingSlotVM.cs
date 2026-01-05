@@ -26,7 +26,14 @@ namespace LearninngManagementSystem.Models
         
         public bool IsAvailable { get; set; }
 
+        [Required]
+        public int SlotId { get; set; }
+
+        [Required]
+        public int SlotDateId { get; set; }
+
         public string BookingId { get; set; }
+        public DateTime BookingDate { get; set; }
         [Required]
         public string P_FullName { get; set; }
         [Required]

@@ -27,11 +27,21 @@ namespace LearninngManagementSystem.Controllers
             return View();
         }
 
-        public ActionResult GetSlotsByDate( int selectedDateId)
+        public ActionResult GetSlotsByDate(int dateId)
         {
-            var slots = Bookings.GetSlots().Where(s => s.SlotDateId == selectedDateId).ToList();
+            var slots = Bookings.GetSlots()
+                .Where(s => s.SlotDateId == dateId)
+                .Select(s => new
+                {
+                    s.SlotId,
+                    StartTime = s.StartTime.ToString(@"hh\:mm"),
+                    EndTime = s.EndTime.ToString(@"hh\:mm")
+                })
+                .ToList();
+
             return Json(slots, JsonRequestBehavior.AllowGet);
         }
+
 
         public ActionResult BookingView()
         {
@@ -44,12 +54,35 @@ namespace LearninngManagementSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult BookingView(Booking booking)
+        public ActionResult BookingView(BookingSlotVM model)
         {
-            booking.BookingId = Guid.NewGuid().ToString();
-            booking.DateMade = DateTime.Now;
-            return View("BookingConfirmedView",booking);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SlotDates = Bookings.AvailableSlotDates();
+                return View(model);
+            }
+
+            var booking = new Booking
+            {
+                BookingId = Guid.NewGuid().ToString(),
+                SlotId = model.SlotId,
+                SlotDateId = model.SlotDateId,
+                P_FullName = model.P_FullName,
+                L_FullName = model.L_FullName,
+                P_PhoneNumber = model.P_PhoneNumber,
+                L_PhoneNumber = model.L_PhoneNumber,
+                Home_Language = model.Home_Language,
+                Grade = model.Grade,
+                DateMade = DateTime.Now,
+                BookingDate = Bookings.GetSlotDateFromId(model.SlotDateId)
+            };
+
+            Bookings.SaveBooking(booking);
+
+            return RedirectToAction("BookingConfirmedView", new { id = booking.BookingId });
         }
+
+
 
         [HttpPost]
         public ActionResult StudentLogInView(StudentLogInViewModel model)
@@ -109,10 +142,14 @@ namespace LearninngManagementSystem.Controllers
             
         }
        
-        public ActionResult BookingConfirmedView()
+        
+        public ActionResult BookingConfirmedView(int id)
         {
-            return View();
+            var model = Bookings.GetBookingById(id);
+            return View(model);
         }
+
+
 
         public ActionResult ParentLogInView()
         {

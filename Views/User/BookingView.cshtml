@@ -11,6 +11,8 @@
     <div class="card bg-secondary w-50 mx-auto rounded-4 h-100">
         @using (Html.BeginForm("BookingView", "User", FormMethod.Post))
         {
+            @Html.ValidationSummary()
+
             <div class="row">
                 <div class="col ms-3">
                     @Html.LabelFor(m => m.P_FullName, "Parent Full Name:")
@@ -44,8 +46,9 @@
             <div class="row">
                 <div class="col ms-3">
                     @Html.LabelFor(m => m.Date, "Date for Writing:")
-                    @Html.DropDownList("Date", new SelectList(ViewBag.SlotDates, "SlotDateId", "Date"),
-                    "--Select--", new { @id = "SlotDateDropdown", @class = "form-select rounded-pill" })
+                    @Html.DropDownListFor(m => m.SlotDateId, new SelectList(ViewBag.SlotDates, "SlotDateId", "Date"),
+                     "--Select--", new { id = "SlotDateDropdown", @class = "form-select rounded-pill" })
+
                 </div>
 
             </div>
@@ -53,7 +56,7 @@
             <div class="row">
                 <div class="col ms-3">
                     @Html.LabelFor(m => m.StartTime, "Slot:")
-                    @Html.DropDownList("SlotId", Enumerable.Empty<SelectListItem>(),
+                    @Html.DropDownListFor(m => m.SlotId, Enumerable.Empty<SelectListItem>(),
                     "--Select--", new { @id = "SlotDropdown", @class = "form-select rounded-pill" })
                 </div>
 
@@ -66,51 +69,53 @@
 
 </div>
 
-<script src="~/Scripts/jquery-3.6.0.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('#SlotDateDropdown').change(function () {
-                var selectedDateId = $(this).val();
-                if (selectedDateId) {
-                    $.ajax({
-                        url: '@Url.Action("GetSlotsByDate", "User")',
-                        type: 'GET',
-                        data: { dateId: selectedDateId },
-                        success: function (data) {
-                            var slotDropdown = $('#SlotDropdown');
-                            slotDropdown.empty();
-                            slotDropdown.append($('<option>', {
-                                value: '',
-                                text: '--Select--'
-                            }));
-                            $.each(data, function (i, slot) {
-                                slotDropdown.append($('<option>', {
-                                    value: slot.SlotId,
-                                    text: slot.StartTime + ' - ' + slot.EndTime
-                                }));
-                            });
-                        },
-                        error: function () {
-                            alert('Error retrieving slots. Please try again.');
-                        }
-                    });
-                } else {
-                    $('#SlotDropdown').empty();
-                    $('#SlotDropdown').append($('<option>', {
-                        value: '',
-                        text: '--Select--'
+<script>
+$(document).ready(function () {
+
+    $('#SlotDropdown').prop('disabled', true);
+
+    $('#SlotDateDropdown').change(function () {
+
+        var selectedDateId = $(this).val();
+
+        if (!selectedDateId) {
+            $('#SlotDropdown').prop('disabled', true).empty()
+                .append($('<option>', { value: '', text: '--Select--' }));
+            return;
+        }
+
+        $('#SlotDropdown').prop('disabled', false);
+
+        $.ajax({
+            url: '@Url.Action("GetSlotsByDate", "User")',
+            type: 'GET',
+            data: { dateId: selectedDateId },
+            success: function (data) {
+
+                var slotDropdown = $('#SlotDropdown');
+                slotDropdown.empty();
+                slotDropdown.append($('<option>', {
+                    value: '',
+                    text: '--Select--'
+                }));
+
+                $.each(data, function (i, slot) {
+                    slotDropdown.append($('<option>', {
+                        value: slot.SlotId,
+                        text: slot.StartTime + ' - ' + slot.EndTime
                     }));
-                }
-            });
+                });
+            },
+            error: function () {
+                alert('Error retrieving slots.');
+            }
         });
-
-
-    </script>
-
-
-
+    });
+});
+</script>
 
 
 
@@ -118,5 +123,9 @@
 
 
 
-    
+
+
+
+
+
 

@@ -1,4 +1,4 @@
-﻿@model LearninngManagementSystem.Models.Booking
+﻿@model LearninngManagementSystem.Models.BookingConfirmationVM
 @{
     ViewBag.Title = "BookingConfirmedView";
 }
@@ -16,99 +16,76 @@
                     <h5>Booking Confirmed with the following details:</h5>
                 </div>
                 <div class="ms-4 mt-3 me-3">
-                    <p><strong>Booking ID:</strong><span id="bookingId"></span></p>
-                    <p><strong>Date:</strong><span id="bookingDate"></span></p>
-                    <p><strong>Learner:</strong><span id="LFullName"></span></p>
-                    <p><strong>Grade:</strong><span id="grade"></span></p>
+                    <p><strong>Booking ID:</strong> @Model.BookingId</p>
+                    <p><strong>Date Booked:</strong> @Model.DateMade.ToString("dd MMM yyyy HH:mm")</p>
+
+                    <p><strong>Slot Date:</strong> @Model.SlotDate.ToString("dd MMM yyyy")</p>
+                    <p><strong>Slot Time:</strong> @Model.StartTime.ToString(@"hh\:mm") - @Model.EndTime.ToString(@"hh\:mm")</p>
+
+                    <hr />
+
+                    <p><strong>Parent:</strong> @Model.P_FullName (@Model.P_PhoneNumber)</p>
+                    <p><strong>Learner:</strong> @Model.L_FullName (@Model.L_PhoneNumber)</p>
+                    <p><strong>Grade:</strong> @Model.Grade</p>
+                    <p><strong>Home Language:</strong> @Model.Home_Language</p>
+
                 </div>
                 <div class="mt-5 text-center">
                     <p>Thank You for making a booking.</p>
                     <p>Please present your booking confirmation at the reception on the day</p>
-                    <p>We can't wait to see you on @Model.BookingDate </p>
+                    <p>We can't wait to see you on @Model.SlotDate </p>
                 </div>
             </div>
         </div>
     </div>
     <div class="text-center">
-        <a id="ConfirmationDownload" href="#"><p>Click here to download booking confirmation</p></a>
+        <a class="btn-btn-success" id="ConfirmationDownload" href="#"><p>Click here to download booking confirmation</p></a>
     </div>
 </div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        const bookingId = "@Model.BookingId";
+    const bookingId = "@Model.BookingId";
 
-        if (!bookingId) {
-            alert("No booking found");
+    if (!bookingId) {
+        alert("No booking found");
+        return;
+    }
+
+
+    document.getElementById("ConfirmationDownload").addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const bookingCard = document.getElementById("bookingCard");
+
+        if (!bookingCard) {
+            alert("Booking card not found");
             return;
         }
 
-        //Save booking to localstorage
-        const booking = {
-            BookingId: "@Model.BookingId",
-            BookingDate: "@Model.BookingDate.ToString("o")",
-            P_FullName: "@Model.P_FullName",
-            L_FullName: "@Model.L_FullName",
-            P_PhoneNumber: "@Model.P_PhoneNumber",
-            L_PhoneNumber: "@Model.L_PhoneNumber",
-            HomeLanguage: "@Model.Home_Language",
-            Grade: "@Model.Grade"
-        };
+        html2canvas(bookingCard).then(canvas => {
 
-        //Save to localstorage
-        localStorage.setItem(booking.BookingId, JSON.stringify(booking));
-        localStorage.setItem("selectedbookingId", booking.BookingId);
+            const imageData = canvas.toDataURL("image/png");
 
-        let rideHistory = JSON.parse(localStorage.getItem("rideHistory")) || [];
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF("p", "pt", "a4");
 
-        //Prevent duplicates
-        if (!rideHistory.includes(booking.BookingId)) {
-            rideHistory.push(booking.BookingId);
-            localStorage.setItem("rideHistory", JSON.stringify(rideHistory));
-        }
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
 
-        //Populate Page
-        document.getElementById("bookingId").textContent = booking.BookingId;
-        document.getElementById("bookingDate").textContent = new Date(booking.BookingDate).toLocaleDateString();
-        document.getElementById("LFullName").textContent = booking.L_FullName;
-        document.getElementById("grade").textContent = booking.Grade;
+            const ratio = Math.min(pageWidth / imgWidth, 1);
+            const scaledWidth = imgWidth * ratio;
+            const scaledHeight = imgHeight * ratio;
 
-        var downloadlink = document.getElementById("ConfirmationDownload");
-        downloadlink.addEventListener("click", function (e) {
+            const xOffset = (pageWidth - scaledWidth) / 2;
 
-            e.preventDefault(); //Prevent default behaviour
-
-            const bookingId = localStorage.getItem("selectedbookingId");
-            const bookingData = localStorage.getItem(bookingId);
-            const bookingcard = document.getElementById("bookingCard");
-            //Check if the booking exists
-            if (!bookingData) {
-                alert("No booking found")
-                return
-            }
-
-            html2canvas(bookingcard).then(canvas => {
-                const image = canvas.toDataURL("image/png");
-
-                const { jsPDF } = window.jspdf;
-                const PDF = new jsPDF("p", "pt", "a4");
-
-                // Calculate dimensions to center the image
-                const pageWidth = PDF.internal.pageSize.getWidth();
-                const imgWidth = canvas.width;
-                const imgHeight = canvas.height;
-                const ratio = Math.min(pageWidth / imgWidth, 1);
-                const scaledWidth = imgWidth * ratio;
-                const scaledHeight = imgHeight * ratio;
-                const xOffset = (pageWidth - scaledWidth) / 2;
-
-                PDF.addImage(image, "PNG", xOffset, 40, scaledWidth, scaledHeight);
-                
-                PDF.save("BookingConfirmation.pdf");
-            });
-            
+            pdf.addImage(imageData, "PNG", xOffset, 40, scaledWidth, scaledHeight);
+            pdf.save("BookingConfirmation.pdf");
         });
-
     });
+
+});
 </script>
 
