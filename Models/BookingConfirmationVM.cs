@@ -7,6 +7,7 @@ namespace LearninngManagementSystem.Models
 {
     public class BookingConfirmationVM
     {
+        public string BookingNo { get; set; }
         public string BookingId { get; set; }
         public DateTime DateMade { get; set; }
 

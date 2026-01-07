@@ -63,23 +63,37 @@ namespace LearninngManagementSystem.Models
 
         }
 
+        private static readonly Random _random = new Random();
+
+        public static string GenerateBookingNumber()
+        {
+            string datePart = DateTime.Now.ToString("yyyyMMdd");
+            int randomPart = _random.Next(1000, 9999);
+
+            return $"BK-{datePart}-{randomPart}";
+        }
+
+
+
+
         public static void SaveBooking(Booking booking)
         {
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
 
+                
                 string query = @"
                    INSERT INTO Booking
-                   ( SlotId, SlotDateId, P_FullName, L_FullName,
+                   ( BookingNo,SlotId, SlotDateId, P_FullName, L_FullName,
                    P_PhoneNumber, L_PhoneNumber, BookingDate, Home_Language, Grade, DateMade)
                    VALUES
-                  ( @SlotId, @SlotDateId, @P_FullName, @L_FullName,
+                  ( @BookingNo, @SlotId, @SlotDateId, @P_FullName, @L_FullName,
                    @P_PhoneNumber, @L_PhoneNumber, @BookingDate, @Home_Language, @Grade, @DateMade)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
-
+                cmd.Parameters.AddWithValue("@BookingNo", booking.BookingNo);
                 cmd.Parameters.AddWithValue("@SlotId", booking.SlotId);
                 cmd.Parameters.AddWithValue("@SlotDateId", booking.SlotDateId);
                 cmd.Parameters.AddWithValue("@P_FullName", booking.P_FullName);
@@ -117,7 +131,7 @@ namespace LearninngManagementSystem.Models
         }
 
 
-        public static BookingConfirmationVM GetBookingById(int bookingId)
+        public static BookingConfirmationVM GetBookingByNo(string bookingNo)
         {
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
@@ -125,7 +139,7 @@ namespace LearninngManagementSystem.Models
 
                 string query = @"
            SELECT 
-           b.BookingId,
+           b.BookingNo,
            b.DateMade,
            sd.Date AS SlotDate,
            s.StartTime,
@@ -139,10 +153,10 @@ namespace LearninngManagementSystem.Models
            FROM Booking b
           INNER JOIN Slot s ON b.SlotId = s.SlotId
           INNER JOIN SlotDate sd ON b.SlotDateId = sd.SlotDateId
-          WHERE b.BookingId = @BookingId";
+          WHERE b.BookingNo = @BookingNo";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@BookingId", bookingId); // int parameter
+                cmd.Parameters.AddWithValue("@BookingNo", bookingNo); 
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -150,7 +164,7 @@ namespace LearninngManagementSystem.Models
                 {
                     return new BookingConfirmationVM
                     {
-                        BookingId = reader["BookingId"].ToString(),
+                        BookingNo = reader["BookingNo"].ToString(),
                         DateMade = (DateTime)reader["DateMade"],
                         SlotDate = (DateTime)reader["SlotDate"],
                         StartTime = (TimeSpan)reader["StartTime"],

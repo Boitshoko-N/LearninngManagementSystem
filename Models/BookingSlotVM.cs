@@ -33,6 +33,7 @@ namespace LearninngManagementSystem.Models
         public int SlotDateId { get; set; }
 
         public string BookingId { get; set; }
+        public string BookingNo { get; set; }
         public DateTime BookingDate { get; set; }
         [Required]
         public string P_FullName { get; set; }
@@ -41,8 +42,10 @@ namespace LearninngManagementSystem.Models
         [Required]
         public int Grade { get; set; }
         [Required]
+        [Phone]
         public string P_PhoneNumber { get; set; }
         [Required]
+        [Phone]
         public string L_PhoneNumber { get; set; }
         [Required]
         public DateTime DateMade { get; set; }

@@ -16,7 +16,7 @@
                     <h5>Booking Confirmed with the following details:</h5>
                 </div>
                 <div class="ms-4 mt-3 me-3">
-                    <p><strong>Booking ID:</strong> @Model.BookingId</p>
+                    <p><strong>Booking ID:</strong> @Model.BookingNo</p>
                     <p><strong>Date Booked:</strong> @Model.DateMade.ToString("dd MMM yyyy HH:mm")</p>
 
                     <p><strong>Slot Date:</strong> @Model.SlotDate.ToString("dd MMM yyyy")</p>
@@ -39,20 +39,19 @@
         </div>
     </div>
     <div class="text-center">
-        <a class="btn-btn-success" id="ConfirmationDownload" href="#"><p>Click here to download booking confirmation</p></a>
+        <a class="btn btn-success" id="ConfirmationDownload" href="#">Download Confirmation</a>
     </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const bookingId = "@Model.BookingId";
+    const bookingNo = "@Model.BookingNo";
 
-    if (!bookingId) {
+    if (!bookingNo) {
         alert("No booking found");
         return;
     }
-
 
     document.getElementById("ConfirmationDownload").addEventListener("click", function (e) {
         e.preventDefault();
@@ -88,4 +87,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
 

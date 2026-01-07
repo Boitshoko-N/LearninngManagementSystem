@@ -8,6 +8,7 @@ namespace LearninngManagementSystem.Models
     public class Booking
     {
         public string BookingId { get; set; }
+        public string BookingNo { get; set; }
         public string P_FullName { get; set; }
         public string L_FullName {  get; set; }
         public int Grade {  get; set; }

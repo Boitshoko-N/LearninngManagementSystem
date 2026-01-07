@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -62,9 +63,11 @@ namespace LearninngManagementSystem.Controllers
                 return View(model);
             }
 
+            var bookingNo = Bookings.GenerateBookingNumber();
+
             var booking = new Booking
             {
-                BookingId = Guid.NewGuid().ToString(),
+                BookingNo = bookingNo,
                 SlotId = model.SlotId,
                 SlotDateId = model.SlotDateId,
                 P_FullName = model.P_FullName,
@@ -79,7 +82,7 @@ namespace LearninngManagementSystem.Controllers
 
             Bookings.SaveBooking(booking);
 
-            return RedirectToAction("BookingConfirmedView", new { id = booking.BookingId });
+            return RedirectToAction("BookingConfirmedView","User", new { bookingNo = booking.BookingNo });
         }
 
 
@@ -141,13 +144,20 @@ namespace LearninngManagementSystem.Controllers
 
             
         }
-       
-        
-        public ActionResult BookingConfirmedView(int id)
+
+
+        public ActionResult BookingConfirmedView(string bookingNo)
         {
-            var model = Bookings.GetBookingById(id);
+            var model = Bookings.GetBookingByNo(bookingNo);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
             return View(model);
         }
+
 
 
 
