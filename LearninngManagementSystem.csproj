@@ -133,6 +133,7 @@
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\BookingSlotVM.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
+    <Compile Include="Models\PasswordHelper.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\SlotDate.cs" />

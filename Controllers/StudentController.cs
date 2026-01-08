@@ -11,7 +11,22 @@ namespace LearninngManagementSystem.Controllers
         // GET: Student
         public ActionResult StudentPortalView()
         {
+            if (Session["IsLoggedIn"] == null)
+            {
+                return RedirectToAction("StudentLogInView", "User");
+            }
+
             return View();
         }
+
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("StudentLogInView", "User");
+        }
+
+
     }
 }

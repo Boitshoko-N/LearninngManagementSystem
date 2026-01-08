@@ -14,7 +14,7 @@ namespace LearninngManagementSystem.Controllers
         {
             var model = new ManageViewModel
             {
-                Students = StudentRepository.GetAllStudents(),
+                Students = StudentRepository.GetStudents(),
                 Staff = StaffRepository.GetAllStaff()
             };
             return View(model);

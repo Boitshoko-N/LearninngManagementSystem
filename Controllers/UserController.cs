@@ -90,19 +90,33 @@ namespace LearninngManagementSystem.Controllers
         [HttpPost]
         public ActionResult StudentLogInView(StudentLogInViewModel model)
         {
-            var savedStudent = StudentRepository.GetStudentByStudentNo(model.StudentNo);
-
-            if (savedStudent != null && savedStudent.Password == model.Password) {
-                return RedirectToAction("StudentPortalView", "Student");
-
-            }
-            else
+            if (!ModelState.IsValid)
             {
-                ViewBag.ErrorMessage = "Invalid login details";
-                return View("StudentLogInView", model);
+                return View(model);
             }
-            
+
+            var student = StudentRepository.GetStudentByStudentNo(model.StudentNo);
+
+            if (student != null)
+            {
+                string hashedInputPassword = PasswordHelper.HashPassword(model.Password);
+
+                if (student.Password == hashedInputPassword)
+                {
+                    //  Session variables
+                    Session["StudentNo"] = student.StudentNo;
+                    Session["IsLoggedIn"] = true;
+
+                    return RedirectToAction("StudentPortalView", "Student");
+                }
+            }
+
+            ViewBag.ErrorMessage = "Invalid student number or password";
+            return View(model);
         }
+        
+
+
 
         [HttpPost]
         public ActionResult StaffLogInView(StaffLogInViewModel model)
