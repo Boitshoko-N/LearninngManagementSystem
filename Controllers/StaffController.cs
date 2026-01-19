@@ -23,10 +23,7 @@ namespace LearninngManagementSystem.Controllers
         {
             return View();
         }
-        public ActionResult ClerkView()
-        {
-            return View();
-        }
+        
         public ActionResult TeacherView()
         {
             return View();

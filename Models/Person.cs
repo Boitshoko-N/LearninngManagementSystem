@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls.WebParts;
 
 namespace LearninngManagementSystem.Models
 {
@@ -13,13 +14,36 @@ namespace LearninngManagementSystem.Models
 
     }
 
+    public class Parent : Person
+    {
+        public int ParentId { get; set; }
+
+        public string ParentNumber { get; set; } // YYXXXXXX
+        public string FullName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+    }
+
     public class Student : Person
     {
-        public int StudentNo { get; set; }
+        
         public string Password { get; set; }
         public int grade {  get; set; }
 
         public Student() { }
+
+        public int StudentId { get; set; }
+
+        public string StudentNo { get; set; } // YYXXXXXX
+        public string FullName { get; set; }
+        
+
+        public bool IsRegistered { get; set; }
+        public bool FirstLogin { get; set; } = true;
+
+        public int ParentId { get; set; }
+        public Parent Parent { get; set; }
+
     }
     public class Staff : Person
     {

@@ -1,0 +1,38 @@
+﻿@model LearninngManagementSystem.Models.Person
+
+<h4 class="fw-bold mb-3">Update Student</h4>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.StudentId)
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            @Html.LabelFor(m => m.FullName)
+            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            @Html.LabelFor(m => m.Grade)
+            @Html.DropDownListFor(m => m.Grade,
+                new SelectList(new[] { 8, 9, 10, 11, 12 }),
+                "Select Grade",
+                new { @class = "form-select" })
+        </div>
+    </div>
+
+    <h6 class="fw-bold mt-3">Parent Contact</h6>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            @Html.TextBoxFor(m => m.Parent.Phone, new { @class = "form-control" })
+        </div>
+        <div class="col-md-6 mb-3">
+            @Html.TextBoxFor(m => m.Parent.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Update</button>
+}

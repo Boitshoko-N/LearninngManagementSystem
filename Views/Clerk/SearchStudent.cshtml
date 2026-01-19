@@ -1,0 +1,25 @@
+﻿@model List<LearninngManagementSystem.Models.Person>
+
+<h4 class="fw-bold mb-3">Search Students</h4>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Student No</th>
+            <th>Name</th>
+            <th>Grade</th>
+            <th>Parent</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.StudentNumber</td>
+                <td>@s.FullName</td>
+                <td>Grade @s.Grade</td>
+                <td>@s.Parent.Phone</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -27,7 +27,7 @@ namespace LearninngManagementSystem.Models
                 {
                     Student student = new Student()
                     {
-                        StudentNo = Convert.ToInt32(reader["StudentNumber"]),
+                        StudentNo = reader["StudentNumber"].ToString(),
                         Name = reader["StudentName"].ToString(),
                         Surname = reader["StudentSurname"].ToString(),
                         Password = reader["StudentPassword"].ToString(),
@@ -60,12 +60,76 @@ namespace LearninngManagementSystem.Models
                 {
                     return new Student
                     {
-                        StudentNo = Convert.ToInt32(reader["StudentNumber"]),
+                        StudentNo = reader["StudentNumber"].ToString(),
                         Password = reader["StudentPassword"].ToString()
                     };
                 }
 
                 return null;
+            }
+        }
+
+        public static Student GetById(int studentId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                string sql = @"
+                SELECT s.*, p.*
+                FROM Student s
+                INNER JOIN Parent p ON s.ParentId = p.ParentId
+                WHERE s.StudentId = @StudentId";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@StudentId", studentId);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (!dr.Read())
+                    return null;
+
+                return new Student
+                {
+                    StudentId = (int)dr["StudentId"],
+                    Name = dr["StudentName"].ToString(),
+                    Surname = dr["StudentSurname"].ToString(),
+                    StudentNo = dr["StudentNumber"].ToString(),
+                    IsRegistered = (bool)dr["IsRegistered"],
+                    Parent = new Parent
+                    {
+                        ParentId = (int)dr["ParentId"],
+                        Phone = dr["Phone"].ToString(),
+                        ParentNumber = dr["ParentNumber"].ToString()
+                    }
+                };
+            }
+        }
+
+        // UPDATE STUDENT
+        public static void Update(Student student)
+        {
+            using (SqlConnection conn = new SqlConnection())
+            {
+                string sql = @"
+                UPDATE Student
+                SET StudentNumber = @StudentNumber,
+                    IsRegistered = 1,
+                    FirstLogin = 1
+                WHERE StudentId = @StudentId;
+
+                UPDATE Parent
+                SET ParentNumber = @ParentNumber
+                WHERE ParentId = @ParentId;";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+
+                cmd.Parameters.AddWithValue("@StudentNumber", student.StudentNo);
+                cmd.Parameters.AddWithValue("@StudentId", student.StudentId);
+                cmd.Parameters.AddWithValue("@ParentNumber", student.Parent.ParentNumber);
+                cmd.Parameters.AddWithValue("@ParentId", student.Parent.ParentId);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 

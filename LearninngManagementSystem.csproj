@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ClerkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
@@ -132,9 +133,11 @@
     <Compile Include="Models\BookingConfirmationVM.cs" />
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\BookingSlotVM.cs" />
+    <Compile Include="Models\EligibleStudentVM.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
     <Compile Include="Models\PasswordHelper.cs" />
     <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\RegistrationService.cs" />
     <Compile Include="Models\Slot.cs" />
     <Compile Include="Models\SlotDate.cs" />
     <Compile Include="Models\StaffLogInViewModel.cs" />
@@ -203,9 +206,12 @@
     <Content Include="Views\Student\StudentPortalView.cshtml" />
     <Content Include="Views\Staff\PrincipalView.cshtml" />
     <Content Include="Views\Staff\TresurerView.cshtml" />
-    <Content Include="Views\Staff\ClerkView.cshtml" />
+    <Content Include="Views\Clerk\ClerkView.cshtml" />
     <Content Include="Views\Staff\TeacherView.cshtml" />
     <Content Include="Views\User\ParentLogInView.cshtml" />
+    <Content Include="Views\Clerk\RegisterStudent.cshtml" />
+    <Content Include="Views\Clerk\UpdateStudent.cshtml" />
+    <Content Include="Views\Clerk\SearchStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
