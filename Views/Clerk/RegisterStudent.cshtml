@@ -1,4 +1,4 @@
-﻿@model List<EligibleStudentVM>
+﻿@model List<LearninngManagementSystem.Models.BookingIntakeVM>
 
 @{
     ViewBag.Title = "Register Students";
@@ -9,6 +9,15 @@
     Contact the parent for approval before registering.
 </p>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+
 <table class="table table-hover align-middle shadow-sm">
     <thead class="table-light">
         <tr>
@@ -16,14 +25,14 @@
             <th>Grade</th>
             <th>Parent</th>
             <th>Contact</th>
-            <th></th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var s in Model)
         {
             <tr>
-                <td>@s.StudentName</td>
+                <td>@s.LearnerName</td>
                 <td>Grade @s.Grade</td>
                 <td>@s.ParentName</td>
                 <td>
@@ -34,11 +43,16 @@
                     @using (Html.BeginForm("ConfirmRegister", "Clerk", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.Hidden("studentId", s.StudentId)
 
-                        <button class="btn btn-success btn-sm">
+                        <!-- IMPORTANT: use BookingId -->
+                        @Html.Hidden("bookingId", s.BookingId)
+
+                        <button type="submit"
+                                class="btn btn-success btn-sm"
+                                onclick="return confirm('Have you received parent approval to register this student?');">
                             Register
                         </button>
+
                     }
                 </td>
             </tr>

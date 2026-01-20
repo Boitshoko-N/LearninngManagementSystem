@@ -131,8 +131,10 @@
     </Compile>
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\BookingConfirmationVM.cs" />
+    <Compile Include="Models\BookingIntakeVM.cs" />
     <Compile Include="Models\Bookings.cs" />
     <Compile Include="Models\BookingSlotVM.cs" />
+    <Compile Include="Models\ClerkRepository.cs" />
     <Compile Include="Models\EligibleStudentVM.cs" />
     <Compile Include="Models\ManageViewModel.cs" />
     <Compile Include="Models\PasswordHelper.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Models\StudentLogInViewModel.cs" />
     <Compile Include="Models\StudentRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmailService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -212,6 +215,7 @@
     <Content Include="Views\Clerk\RegisterStudent.cshtml" />
     <Content Include="Views\Clerk\UpdateStudent.cshtml" />
     <Content Include="Views\Clerk\SearchStudent.cshtml" />
+    <Content Include="Views\Clerk\RecordMarks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

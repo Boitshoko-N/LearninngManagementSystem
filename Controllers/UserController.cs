@@ -136,7 +136,7 @@ namespace LearninngManagementSystem.Controllers
                 }
                 else if (savedStaff.Type == "Clerk")
                 {
-                    return RedirectToAction("ClerkView", "Staff");
+                    return RedirectToAction("ClerkView", "Clerk");
                 }
                 else
                 {

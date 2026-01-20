@@ -2,7 +2,7 @@
 {
     public int StudentId { get; set; }
 
-    public string StudentName { get; set; }
+    public string LearnerName { get; set; }
     public int Grade { get; set; }
 
     public string ParentName { get; set; }

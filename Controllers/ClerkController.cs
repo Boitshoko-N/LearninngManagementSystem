@@ -4,20 +4,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LearninngManagementSystem.Services;
+using static LearninngManagementSystem.Models.StudentRepository;
 
 namespace LearninngManagementSystem.Controllers
 {
-    [Authorize(Roles = "Clerk")]
+    
     public class ClerkController : Controller
     {
         // ================= DASHBOARD =================
         public ActionResult ClerkView()
         {
+            ViewBag.StudentCount = StudentRepository.GetStudentCount();
             return View();
         }
 
-        
-        
+        public ActionResult RecordMarks()
+        {
+            var model = ClerkRepository.GetBookingsForIntake();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveResult(int bookingId, bool passed)
+        {
+            ClerkRepository.SaveIntakeResult(bookingId, passed);
+            return RedirectToAction("RecordMarks");
+        }
+
+        public ActionResult RegisterStudent()
+        {
+            var model = ClerkRepository.GetPassedStudents();
+            return View(model);
+        }
+
+
+
+
 
 
         // ================= ACADEMIC RECORDS =================
@@ -45,33 +68,54 @@ namespace LearninngManagementSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmRegister(int studentId)
+        public ActionResult ConfirmRegister(int bookingId)
         {
-            var student = StudentRepository.GetById(studentId);
+            // Generate numbers (as strings)
+            string studentNoStr = RegistrationService.GeneratePermanentNumber();
+            string parentNoStr = RegistrationService.GeneratePermanentNumber();
 
-            if (student == null)
-                return HttpNotFound();
+            // Convert student and parent numbers to int
+            if (!int.TryParse(studentNoStr, out int studentNo))
+            {
+                TempData["ErrorMessage"] = "Invalid student number generated.";
+                return RedirectToAction("RegisterStudent");
+            }
+            if (!int.TryParse(parentNoStr, out int parentNo))
+            {
+                TempData["ErrorMessage"] = "Invalid parent number generated.";
+                return RedirectToAction("RegisterStudent");
+            }
 
-            // Generate numbers
-            student.StudentNumber = RegistrationService.GeneratePermanentNumber();
-            student.Parent.ParentNumber = RegistrationService.GeneratePermanentNumber();
+            // Generate passwords
+            string studentPassword = RegistrationService.GenerateTempPassword();
+            string parentPassword = RegistrationService.GenerateTempPassword();
 
-            // Temp password
-            string tempPassword = RegistrationService.GenerateTempPassword();
-
-            student.IsRegistered = true;
-            student.FirstLogin = true;
-
-            StudentRepository.Update(student);
-
-            SmsService.Send(
-                student.Parent.Phone,
-                $"Student No: {student.StudentNumber}, Parent No: {student.Parent.ParentNumber}, Temp Password: {tempPassword}"
+            // Create student & parent and get emails
+            RegistrationEmails emails = StudentRepository.CreateStudentFromBooking(
+                bookingId,
+                studentNo,
+                parentNo,
+                studentPassword,
+                parentPassword
             );
 
-            TempData["SuccessMessage"] = "Student registered successfully.";
+            // SEND EMAIL
+            EmailService.SendRegistrationEmail(
+                emails.ParentEmail,
+                emails.StudentEmail,
+                parentNoStr,
+                parentPassword,
+                studentNoStr,
+                studentPassword
+            );
+
+            TempData["SuccessMessage"] =
+                "Student registered successfully. Login details sent via email.";
+
             return RedirectToAction("RegisterStudent");
         }
+
+
 
     }
 }

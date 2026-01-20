@@ -21,7 +21,7 @@ namespace LearninngManagementSystem.Models
         public string ParentNumber { get; set; } // YYXXXXXX
         public string FullName { get; set; }
         public string Phone { get; set; }
-        public string Email { get; set; }
+        public string ParentEmail { get; set; }
     }
 
     public class Student : Person
@@ -36,6 +36,7 @@ namespace LearninngManagementSystem.Models
 
         public string StudentNo { get; set; } // YYXXXXXX
         public string FullName { get; set; }
+        public string StudentEmail { get; set; }
         
 
         public bool IsRegistered { get; set; }

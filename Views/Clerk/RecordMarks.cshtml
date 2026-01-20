@@ -1,0 +1,35 @@
+﻿@model List<LearninngManagementSystem.Models.BookingIntakeVM>
+
+<h4 class="fw-bold mb-3">Record Intake Results</h4>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Learner</th>
+            <th>Grade</th>
+            <th>Parent</th>
+            <th>Contact</th>
+            <th>Result</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.LearnerName</td>
+                <td>@s.Grade</td>
+                <td>@s.ParentName</td>
+                <td>@s.ParentPhone</td>
+                <td>
+                    @using (Html.BeginForm("SaveResult", "Clerk"))
+                    {
+                        @Html.Hidden("bookingId", s.BookingId)
+
+                        <button name="passed" value="true" class="btn btn-success btn-sm">Yes</button>
+                        <button name="passed" value="false" class="btn btn-danger btn-sm">No</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

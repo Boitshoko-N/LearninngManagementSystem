@@ -133,6 +133,140 @@ namespace LearninngManagementSystem.Models
             }
         }
 
+        public class RegistrationEmails
+        {
+            public string ParentEmail { get; set; }
+            public string StudentEmail { get; set; }
+        }
+
+        public static RegistrationEmails CreateStudentFromBooking(
+            int bookingId,
+            int studentNo,
+            int parentNo,
+            string studentPassword,
+            string parentPassword)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                conn.Open();
+                SqlTransaction tx = conn.BeginTransaction();
+
+                try
+                {
+                    // 1️⃣ Get booking info
+                    string bookingSql = @"
+                SELECT 
+                    L_FullName,
+                    L_Email,
+                    Grade,
+                    P_FullName,
+                    P_PhoneNumber,
+                    P_Email
+                FROM Booking
+                WHERE BookingId = @BookingId";
+
+                    SqlCommand bookingCmd = new SqlCommand(bookingSql, conn, tx);
+                    bookingCmd.Parameters.AddWithValue("@BookingId", bookingId);
+
+                    SqlDataReader dr = bookingCmd.ExecuteReader();
+
+                    if (!dr.Read())
+                        throw new Exception("Booking not found");
+
+                    string learnerName = dr["L_FullName"].ToString();
+                    string studentEmail = dr["L_Email"].ToString();
+                    int grade = (int)dr["Grade"];
+
+                    string parentName = dr["P_FullName"].ToString();
+                    string parentPhone = dr["P_PhoneNumber"].ToString();
+                    string parentEmail = dr["P_Email"].ToString();
+
+                    dr.Close();
+
+                    // 2️⃣ Split names safely
+                    string[] learnerParts = learnerName.Split(' ');
+                    string studentName = learnerParts[0];
+                    string studentSurname = learnerParts.Length > 1 ? learnerParts[1] : "";
+
+                    string[] parentParts = parentName.Split(' ');
+                    string pName = parentParts[0];
+                    string pSurname = parentParts.Length > 1 ? parentParts[1] : "";
+
+                    // 3️⃣ Insert Parent
+                    string parentSql = @"
+                INSERT INTO Parent
+                (ParentNumber, ParentName, ParentSurname, ParentPassword, ParentPhone, ParentEmail)
+                OUTPUT INSERTED.ParentId
+                VALUES
+                (@ParentNumber, @ParentName, @ParentSurname, @ParentPassword, @ParentPhone, @ParentEmail)";
+
+                    SqlCommand parentCmd = new SqlCommand(parentSql, conn, tx);
+                    parentCmd.Parameters.AddWithValue("@ParentNumber", parentNo);
+                    parentCmd.Parameters.AddWithValue("@ParentName", pName);
+                    parentCmd.Parameters.AddWithValue("@ParentSurname", pSurname);
+                    parentCmd.Parameters.AddWithValue("@ParentPassword", parentPassword);
+                    parentCmd.Parameters.AddWithValue("@ParentPhone", parentPhone);
+                    parentCmd.Parameters.AddWithValue("@ParentEmail", parentEmail);
+
+                    int parentId = (int)parentCmd.ExecuteScalar();
+
+                    // 4️⃣ Insert Student
+                    string studentSql = @"
+                INSERT INTO Student
+                (StudentNumber, StudentName, StudentSurname, StudentPassword, StudentEmail, Grade, ParentId)
+                VALUES
+                (@StudentNumber, @StudentName, @StudentSurname, @StudentPassword, @StudentEmail, @Grade, @ParentId)";
+
+                    SqlCommand studentCmd = new SqlCommand(studentSql, conn, tx);
+                    studentCmd.Parameters.AddWithValue("@StudentNumber", studentNo);
+                    studentCmd.Parameters.AddWithValue("@StudentName", studentName);
+                    studentCmd.Parameters.AddWithValue("@StudentSurname", studentSurname);
+                    studentCmd.Parameters.AddWithValue("@StudentPassword", studentPassword);
+                    studentCmd.Parameters.AddWithValue("@StudentEmail", studentEmail);
+                    studentCmd.Parameters.AddWithValue("@Grade", grade);
+                    studentCmd.Parameters.AddWithValue("@ParentId", parentId);
+
+                    studentCmd.ExecuteNonQuery();
+
+                    // 5️⃣ Update Booking IsRegistered flag
+                    string updateBookingSql = @"
+                UPDATE Booking
+                SET IsRegistered = 1
+                WHERE BookingId = @BookingId";
+
+                    SqlCommand updateCmd = new SqlCommand(updateBookingSql, conn, tx);
+                    updateCmd.Parameters.AddWithValue("@BookingId", bookingId);
+                    updateCmd.ExecuteNonQuery();
+
+                    // 6️⃣ Commit transaction
+                    tx.Commit();
+
+                    // Return emails for sending notifications
+                    return new RegistrationEmails
+                    {
+                        ParentEmail = parentEmail,
+                        StudentEmail = studentEmail
+                    };
+                }
+                catch
+                {
+                    tx.Rollback();
+                    throw;
+                }
+            }
+        }
+
+
+
+        public static int GetStudentCount()
+        {
+            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Student", conn);
+                conn.Open();
+                return (int)cmd.ExecuteScalar();
+            }
+        }
 
 
     }
