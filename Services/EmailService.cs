@@ -14,7 +14,7 @@ namespace LearninngManagementSystem.Services
             string studentPassword)
         {
             var message = new MailMessage();
-            message.From = new MailAddress("yourprojectemail@gmail.com");
+            message.From = new MailAddress("boitshokomphahlele@gmail.com");
             message.To.Add(parentEmail);
 
             // Optional: also send to student
@@ -26,32 +26,32 @@ namespace LearninngManagementSystem.Services
             message.Subject = "Student Registration Confirmation";
 
             message.Body = $@"
-Dear Parent,
+               Dear Parent,
 
-Your child has been successfully registered.
+               Your child has been successfully registered.
 
-PARENT LOGIN DETAILS
---------------------
-Parent Number: {parentNumber}
-Temporary Password: {parentPassword}
+               PARENT LOGIN DETAILS
+               --------------------
+               Parent Number: {parentNumber}
+               Temporary Password: {parentPassword}
 
-STUDENT LOGIN DETAILS
---------------------
-Student Number: {studentNumber}
-Temporary Password: {studentPassword}
+               STUDENT LOGIN DETAILS
+               --------------------
+               Student Number: {studentNumber}
+               Temporary Password: {studentPassword}
 
-Please log in and change your passwords on first login.
+               Please log in and change your passwords on first login.
 
-Regards,
-School Administration
-";
+               Regards,
+               JEKE HIGH School Administration
+               ";
 
             message.IsBodyHtml = false;
 
             var smtp = new SmtpClient("smtp.gmail.com", 587)
             {
                 Credentials = new NetworkCredential(
-                    "yourprojectemail@gmail.com",
+                    "boitshokomphahlele@gmail.com",
                     "APP_PASSWORD_HERE"
                 ),
                 EnableSsl = true
