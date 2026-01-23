@@ -14,7 +14,7 @@ namespace LearninngManagementSystem.Services
             string studentPassword)
         {
             var message = new MailMessage();
-            message.From = new MailAddress("boitshokomphahlele@gmail.com");
+            message.From = new MailAddress("b73332982@gmail.com");
             message.To.Add(parentEmail);
 
             // Optional: also send to student
@@ -51,8 +51,8 @@ namespace LearninngManagementSystem.Services
             var smtp = new SmtpClient("smtp.gmail.com", 587)
             {
                 Credentials = new NetworkCredential(
-                    "boitshokomphahlele@gmail.com",
-                    "APP_PASSWORD_HERE"
+                    "b73332982@gmail.com",
+                    "bxbp xxuw nthy wosm"
                 ),
                 EnableSsl = true
             };

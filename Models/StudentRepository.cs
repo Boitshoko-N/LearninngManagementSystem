@@ -153,7 +153,7 @@ namespace LearninngManagementSystem.Models
 
                 try
                 {
-                    // 1️⃣ Get booking info
+                    //  Get booking info
                     string bookingSql = @"
                 SELECT 
                     L_FullName,

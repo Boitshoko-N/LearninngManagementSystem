@@ -24,7 +24,8 @@ namespace LearninngManagementSystem.Models
                        b.L_FullName,
                        b.Grade,
                        b.P_FullName,
-                       b.P_PhoneNumber
+                       b.P_PhoneNumber,
+                       b.P_Email
                 FROM Booking b
                 WHERE NOT EXISTS
                 (
@@ -43,7 +44,8 @@ namespace LearninngManagementSystem.Models
                         LearnerName = dr["L_FullName"].ToString(),
                         Grade = (int)dr["Grade"],
                         ParentName = dr["P_FullName"].ToString(),
-                        ParentPhone = dr["P_PhoneNumber"].ToString()
+                        ParentPhone = dr["P_PhoneNumber"].ToString(),
+                        ParentEmail = dr["P_Email"].ToString()
                     });
                 }
             }
@@ -80,7 +82,8 @@ namespace LearninngManagementSystem.Models
                        b.L_FullName,
                        b.Grade,
                        b.P_FullName,
-                       b.P_PhoneNumber
+                       b.P_PhoneNumber,
+                       b.P_Email
                 FROM Booking b
                 INNER JOIN IntakeResult i ON b.BookingId = i.BookingId
                 WHERE i.Passed = 1 AND b.IsRegistered = 0";
@@ -97,7 +100,8 @@ namespace LearninngManagementSystem.Models
                         LearnerName = dr["L_FullName"].ToString(),
                         Grade = (int)dr["Grade"],
                         ParentName = dr["P_FullName"].ToString(),
-                        ParentPhone = dr["P_PhoneNumber"].ToString()
+                        ParentPhone = dr["P_PhoneNumber"].ToString(),
+                        ParentEmail = dr["P_Email"].ToString()
                     });
                 }
             }

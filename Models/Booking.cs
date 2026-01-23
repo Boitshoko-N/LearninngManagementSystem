@@ -14,6 +14,8 @@ namespace LearninngManagementSystem.Models
         public int Grade {  get; set; }
         public string P_PhoneNumber { get; set; }
         public string L_PhoneNumber { get; set; }
+        public string ParentEmail { get; set; }
+        public string L_Email { get; set; }
         public DateTime BookingDate { get; set; }
         public DateTime DateMade { get; set; }
         public string Home_Language { get; set; }

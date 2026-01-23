@@ -99,9 +99,9 @@ namespace LearninngManagementSystem.Controllers
 
             if (student != null)
             {
-                string hashedInputPassword = PasswordHelper.HashPassword(model.Password);
+                
 
-                if (student.Password == hashedInputPassword)
+                if (student.Password == model.Password)
                 {
                     //  Session variables
                     Session["StudentNo"] = student.StudentNo;
