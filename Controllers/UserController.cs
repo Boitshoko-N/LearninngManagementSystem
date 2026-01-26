@@ -171,13 +171,16 @@ namespace LearninngManagementSystem.Controllers
 
             return View(model);
         }
-
-
-
-
         public ActionResult ParentLogInView()
         {
             return View();
         }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("StudentLogInView", "User");
+        }
+
     }
 }

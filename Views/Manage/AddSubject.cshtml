@@ -1,0 +1,41 @@
+﻿@model LearninngManagementSystem.Models.Subject
+@{
+    ViewBag.Title = "Add Subject";
+}
+
+<div class="container">
+    <div>
+        @using (Html.BeginForm("AddSubject", "Manage", FormMethod.Post))
+        {
+            @Html.ValidationSummary()
+            <div class="mb-3 form-control">
+                @Html.LabelFor(m => m.SubjectName, "Subject Name:")
+                @Html.TextBoxFor(m => m.SubjectName, new { @class = "form-control", placeholder = "Enter Subject Name" })
+            </div>
+            <div class="mb-3 form-control">
+                @Html.LabelFor(m => m.SubjectCode, "Subject Code:")
+                @Html.TextBoxFor(m => m.SubjectCode, new { @class = "form-control", placeholder = "Enter Subject Code" })
+            </div>
+            <div class="mb-3 form-control">
+                @Html.LabelFor(m => m.CreditHours, "Credits:")
+                @Html.TextBoxFor(m => m.CreditHours, new { @class = "form-control", placeholder = "Enter Credits" })
+            </div>
+            <div class="mb-3 form-control">
+                @Html.LabelFor(m => m.Description, "Description:")
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", placeholder = "Enter Subject Description", rows = 4 })
+            </div>
+            <div class="mb-3 form-control">
+                @Html.LabelFor(m => m.Grade, "Grade:")
+                @Html.TextBoxFor(m => m.Grade, new { @class = "form-control", placeholder = "Grade" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Subject</button>
+        }
+
+
+
+    </div>
+
+
+</div>
+
