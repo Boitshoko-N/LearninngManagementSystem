@@ -16,7 +16,7 @@ namespace LearninngManagementSystem.Models
             using (SqlConnection conn = new SqlConnection(ConnectionString))
             {
                 conn.Open();
-                string query = "INSERT INTO Subjects (SubjectName, SubjectCode, CreditHours, Grade, Description) " +
+                string query = "INSERT INTO [Subject] (SubjectName, SubjectCode, CreditHours, Grade, Description) " +
                                "VALUES (@SubjectName, @SubjectCode, @CreditHours, @Grade, @Description)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@SubjectName", subject.SubjectName);
